@@ -1,0 +1,19 @@
+{
+  "name": "decimal-service",
+  "version": "1.0.0",
+  "description": "Service for getting decimal number for all tokens",
+  "main": "dies/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SimplioOfficial/decimal-service.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SimplioOfficial/decimal-service/issues"
+  },
+  "homepage": "https://github.com/SimplioOfficial/decimal-service#readme"
+}
