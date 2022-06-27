@@ -51,31 +51,36 @@ export class RequestHandler {
     this._app.use(cors());
 
     this._app.get("/token/decimal", async (req, res) => {
-      if (!req.query.ticker || !req.query.contractAddress) {
-        res.status(400);
-        res.send("Missing ticker or contract address");
-        res.end;
-      } else {
-        const libs = this._web3.web3.filter(
-          (e) =>
-            e.ticker.toLowerCase() ===
-            (req.query.ticker as string).toLowerCase()
-        );
-
-        if (libs.length > 0) {
-          const lib = libs[Math.floor(Math.random() * libs.length)];
-          const decimal = await this._web3.getDecimals({
-            abi: abi,
-            contractAddress: req.query.contractAddress as string,
-            lib: lib.lib,
-          });
-          res.status(200);
-          res.send(decimal.toString());
-          res.end();
+      try {
+        if (!req.query.ticker || !req.query.contractAddress) {
+          throw new Error("Missing ticker or contract address");
         } else {
-          res.status(400);
-          res.end();
+          const libs = this._web3.web3.filter(
+            (e) =>
+              e.ticker.toLowerCase() ===
+              (req.query.ticker as string).toLowerCase()
+          );
+
+          if (libs.length > 0) {
+            try {
+              const lib = libs[Math.floor(Math.random() * libs.length)];
+              const decimal = await this._web3.getDecimals({
+                abi: abi,
+                contractAddress: req.query.contractAddress as string,
+                lib: lib.lib,
+              });
+              res.status(200);
+              res.send(decimal.toString());
+              res.end();
+            } catch (err) {}
+          } else {
+            throw new Error("Not supported chain");
+          }
         }
+      } catch (err) {
+        res.status(400);
+        res.send(err.message);
+        res.end();
       }
     });
 
