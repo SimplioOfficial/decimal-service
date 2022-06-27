@@ -2,7 +2,7 @@ import * as solanaWeb3 from "@solana/web3.js";
 export class Solana {
   constructor() {}
 
-  async getDecimals(data: {
+  private async _getDecimals(data: {
     contractAddress: string;
     api: string;
   }): Promise<number> {

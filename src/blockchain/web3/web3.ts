@@ -1,4 +1,5 @@
 import web3 from "web3";
+import { abi } from "./abi";
 
 export interface Web3List {
   ticker: string;
@@ -19,7 +20,7 @@ export class Web3 {
     });
   }
 
-  getDecimals(data: {
+  private _getDecimals(data: {
     abi: any;
     lib: web3;
     contractAddress: string;
@@ -41,5 +42,26 @@ export class Web3 {
         resolve(18);
       }
     });
+  }
+
+  async getDecimals(ticker: string, contractAddress: string) {
+    const libs = this.web3.filter(
+      (e) => e.ticker.toLowerCase() === ticker.toLowerCase()
+    );
+
+    if (libs.length > 0) {
+      try {
+        const lib = libs[Math.floor(Math.random() * libs.length)];
+        return await this._getDecimals({
+          abi: abi,
+          contractAddress,
+          lib: lib.lib,
+        });
+      } catch (err) {
+        throw err;
+      }
+    } else {
+      throw new Error("Not supported chain");
+    }
   }
 }

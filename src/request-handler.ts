@@ -5,14 +5,17 @@ import BodyParse from "body-parser";
 import { Web3 } from "./blockchain/web3/web3";
 import { Platforms } from "./blockchain/web3/platforms";
 import { abi } from "./blockchain/web3/abi";
+import { Solana } from "./blockchain/solana/solana";
 export class RequestHandler {
   _app: Express;
   coingeckoCoins;
   _web3: Web3;
+  _sol: Solana;
   constructor() {
     this._app = express();
     this._web3 = new Web3();
     this._web3.init(Platforms);
+    this._sol = new Solana();
   }
 
   get() {
@@ -55,26 +58,26 @@ export class RequestHandler {
         if (!req.query.ticker || !req.query.contractAddress) {
           throw new Error("Missing ticker or contract address");
         } else {
-          const libs = this._web3.web3.filter(
-            (e) =>
-              e.ticker.toLowerCase() ===
-              (req.query.ticker as string).toLowerCase()
-          );
-
-          if (libs.length > 0) {
-            try {
-              const lib = libs[Math.floor(Math.random() * libs.length)];
-              const decimal = await this._web3.getDecimals({
-                abi: abi,
-                contractAddress: req.query.contractAddress as string,
-                lib: lib.lib,
-              });
-              res.status(200);
-              res.send(decimal.toString());
-              res.end();
-            } catch (err) {}
-          } else {
-            throw new Error("Not supported chain");
+          let decimal = 0;
+          switch ((req.query.ticker as string).toLowerCase()) {
+            case "eth":
+            case "bnb":
+            case "matic":
+              decimal = await this._web3.getDecimals(
+                req.query.ticker as string,
+                req.query.contractAddress as string
+              );
+              break;
+            // case "sol":
+            // case "soltest":
+            // case "soldev":
+            //   decimal = await this._sol.getDecimals(
+            //     req.query.ticker as string,
+            //     req.query.contractAddress as string
+            //   );
+            //   break;
+            default:
+              throw new Error("Not supported chain");
           }
         }
       } catch (err) {
