@@ -68,17 +68,20 @@ export class RequestHandler {
                 req.query.contractAddress as string
               );
               break;
-            // case "sol":
-            // case "soltest":
-            // case "soldev":
-            //   decimal = await this._sol.getDecimals(
-            //     req.query.ticker as string,
-            //     req.query.contractAddress as string
-            //   );
-            //   break;
+            case "sol":
+            case "soltest":
+            case "soldev":
+              decimal = await this._sol.getDecimals(
+                req.query.ticker as string,
+                req.query.contractAddress as string
+              );
+              break;
             default:
               throw new Error("Not supported chain");
           }
+          res.status(200);
+          res.send(decimal.toString());
+          res.end();
         }
       } catch (err) {
         res.status(400);

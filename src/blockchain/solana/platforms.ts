@@ -1,7 +1,7 @@
 export const Platforms = [
   {
     ticker: "SOL",
-    url: "https://api.devnet.solana.com",
+    url: "https://api.mainnet-beta.solana.com",
   },
   {
     ticker: "SOLTEST",
