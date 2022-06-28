@@ -61,7 +61,7 @@ export class RequestHandler {
           let decimal = 0;
           switch ((req.query.ticker as string).toLowerCase()) {
             case "eth":
-            case "bnb":
+            case "bsc":
             case "matic":
               decimal = await this._web3.getDecimals(
                 req.query.ticker as string,
