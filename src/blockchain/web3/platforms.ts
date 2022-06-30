@@ -115,4 +115,16 @@ export const Platforms = [
     ticker: "ETH",
     url: "https://ethereumnodelight.app.runonflux.io",
   },
+  {
+    ticker: "AVAX",
+    url: "https://rpc.ankr.com/avalanche",
+  },
+  {
+    ticker: "AVAX",
+    url: "https://ava-mainnet.public.blastapi.io/ext/bc/C/rpc",
+  },
+  {
+    ticker: "AVAX",
+    url: "https://api.avax.network/ext/bc/C/rpc",
+  },
 ];
