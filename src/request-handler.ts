@@ -63,6 +63,7 @@ export class RequestHandler {
             case "eth":
             case "bsc":
             case "matic":
+            case "avax":
               decimal = await this._web3.getDecimals(
                 req.query.ticker as string,
                 req.query.contractAddress as string
